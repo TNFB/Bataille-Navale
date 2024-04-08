@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Bataille Navale</string>
+    <string name="menu_gauche"><![CDATA[<]]></string>
+    <string name="menu_droit"><![CDATA[>]]></string>
+    <string name="partie_rapide">Partie rapide</string>
 </resources>
