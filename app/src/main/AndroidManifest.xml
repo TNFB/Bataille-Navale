@@ -11,6 +11,9 @@
         android:theme="@style/Theme.BatailleNavale"
         tools:targetApi="31">
         <activity
+            android:name=".game"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

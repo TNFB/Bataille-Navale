@@ -1,8 +1,10 @@
 package com.example.bataillenavale;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,5 +35,12 @@ public class main_menu extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        binding.playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), game.class);
+                startActivity(intent);
+            }
+        });
     }
 }
