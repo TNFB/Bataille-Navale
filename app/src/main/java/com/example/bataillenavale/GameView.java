@@ -11,73 +11,48 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 public class GameView extends View {
     private Bitmap backBitmap;
     private static String[] LETTER = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
     private static String[] NUMBER = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-    /*
-    private Bitmap boatBitmap;
-    private int boatX, boatY;
+
+    private int startX, startY, cellSize;
     private int offsetX, offsetY;
     private boolean isDragging = false;
-
-    public GameView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        boatBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bouton_jouer_v9);
-        boatX = 100;  // Position initiale X
-        boatY = 100;  // Position initiale Y
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-        // Dessiner le bateau
-        canvas.drawBitmap(boatBitmap, boatX, boatY, new Paint());
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        int action = event.getAction();
-
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                if (isInsideBoat(event.getX(), event.getY())) {
-                    isDragging = true;
-                    offsetX = (int) event.getX() - boatX;
-                    offsetY = (int) event.getY() - boatY;
-                }
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (isDragging) {
-                    boatX = (int) event.getX() - offsetX;
-                    boatY = (int) event.getY() - offsetY;
-                    invalidate();  // Redessiner le Canvas
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                isDragging = false;
-                break;
-        }
-        return true;
-    }
-
-    private boolean isInsideBoat(float x, float y) {
-        int width = boatBitmap.getWidth();
-        int height = boatBitmap.getHeight();
-
-        // Créer un rectangle autour du bateau
-        RectF rectF = new RectF(boatX, boatY, boatX + width, boatY + height);
-
-        return rectF.contains(x, y);
-    }*/
     private static final int GRID_SIZE = 10;
-
-    private static int SIZE = 950;
-    private int[][] grid; // Matrice pour la grille
+    private int grid_width;
+    private int[][] grid = new int[GRID_SIZE][GRID_SIZE];
+    private Bateau[] flotte = new Bateau[6];
+    private Bitmap[] bateaux = new Bitmap[6];
+    private int currentBoat = -1;
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        //initialisation des variables selon la taille de l'écran du téléphone
+        int phoneWidth = context.getResources().getDisplayMetrics().widthPixels;
+        grid_width = (int) (phoneWidth * 0.88);
+        cellSize = grid_width / GRID_SIZE;
+        startX = (int) (grid_width * 0.06);
+        startY = (int) (grid_width * 0.05);
+
         backBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.background_grid);
+        backBitmap = Bitmap.createScaledBitmap(backBitmap, grid_width, grid_width, false);
+
+        //ajout des bateaux à la flotte
+        flotte[0] = new Bateau(startX, startY, 1, 4,R.drawable.bateau_4);
+        flotte[1] = new Bateau(startX + cellSize, startY, 1, 4,R.drawable.bateau_4);
+        flotte[2] = new Bateau(startX + cellSize * 2, startY, 1, 4,R.drawable.bateau_4);
+        flotte[3] = new Bateau(startX + cellSize * 3, startY, 1, 4,R.drawable.bateau_4);
+        flotte[4] = new Bateau(startX + cellSize * 4, startY, 1, 4,R.drawable.bateau_4);
+        flotte[5] = new Bateau(startX + cellSize * 5, startY, 1, 4,R.drawable.bateau_4);
+
+        //chargement des images
+        for(int i = 0; i < 6; i++){
+            bateaux[i] = BitmapFactory.decodeResource(getResources(), flotte[i].getImage());
+            bateaux[i] = Bitmap.createScaledBitmap(bateaux[i], flotte[i].getTaille_x() * cellSize - 10, flotte[i].getTaille_y() * cellSize - 10, false);
+        }
         initGrid();
     }
 
@@ -85,28 +60,51 @@ public class GameView extends View {
         grid = new int[GRID_SIZE][GRID_SIZE];
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-    }
 
     @SuppressLint("DrawAllocation")
     @Override
-    protected void onDraw(Canvas canvas) {
-        int cellSize = SIZE / GRID_SIZE;
-        int start_x = 65;
-        int start_y = 50;
+    protected void onDraw(@NonNull Canvas canvas) {
+        drawGrid(canvas, cellSize, startX, startY);
+        drawText(canvas, cellSize, startX, startY);
+        canvas.drawBitmap(backBitmap, startX, startY, new Paint());
 
-        canvas.drawBitmap(backBitmap, start_x, start_y, new Paint());
-        drawGrid(canvas, cellSize, start_x, start_y);
-        drawText(canvas, cellSize, start_x, start_y);
+        for(int i = 0; i < 6; i++){
+            canvas.drawBitmap(bateaux[i], flotte[i].getX(), flotte[i].getY(), new Paint());
+        }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        float touchX = event.getX();
-        float touchY = event.getY();
-
-        invalidate();
+        int action = event.getAction();
+        if(!isDragging) {
+            currentBoat = whatboat((int) event.getX(), (int) event.getY());
+        }
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                if (currentBoat != -1){
+                    isDragging = true;
+                    offsetY = (int) event.getY() - flotte[currentBoat].getY();
+                    offsetX = (int) event.getX() - flotte[currentBoat].getX();
+                    System.out.println(offsetX);
+                    System.out.println(offsetY);
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (isDragging && currentBoat != -1) {
+                    int currentX = flotte[currentBoat].getX();
+                    int currentY = flotte[currentBoat].getY();
+                    flotte[currentBoat].setX((int) event.getX() - offsetX);
+                    flotte[currentBoat].setY((int) event.getY() - offsetY);
+                    isInside(currentBoat);
+                    checkBoatPosition(currentBoat);
+                    alreadyPlaced(currentX, currentY, currentBoat);
+                    invalidate();  // Redessine le Canvas
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                isDragging = false;
+                break;
+        }
         return true;
     }
 
@@ -125,11 +123,72 @@ public class GameView extends View {
         paint.setStrokeWidth(4);
         for (int i = 0; i <= GRID_SIZE; i++) {
             int x = start_x + (i * cellSize);
-            canvas.drawLine(x, start_y, x, start_y + SIZE, paint);
+            canvas.drawLine(x, start_y, x, start_y + grid_width, paint);
         }
         for (int j = 0; j <= GRID_SIZE; j++) {
             int y = start_y + (j * cellSize);
-            canvas.drawLine(start_x, y, start_x + SIZE, y, paint);
+            canvas.drawLine(start_x, y, start_x + grid_width, y, paint);
         }
     }
+    private void checkBoatPosition(int currentboat){
+        int x = flotte[currentboat].getX();
+        int y = flotte[currentboat].getY();
+        for (int i = 0; i < GRID_SIZE; i++) {
+            for (int j = 0; j < GRID_SIZE; j++) {
+                if (x >= startX + (i * cellSize) && x <= startX + ((i + 1) * cellSize) && y >= startY + (j * cellSize) && y <= startY + ((j + 1) * cellSize)) {
+                    flotte[currentboat].setX(startX + (i * cellSize) + 10);
+                    flotte[currentboat].setY(startY + (j * cellSize));
+                }
+            }
+        }
+    }
+
+    private void isInside(int currentboat){
+        int x = flotte[currentboat].getX();
+        int y = flotte[currentboat].getY();
+        int taille_x = flotte[currentboat].getTaille_x() * cellSize;
+        int taille_y = flotte[currentboat].getTaille_y() * cellSize;
+        if(x < startX){
+            flotte[currentboat].setX(startX);
+        }
+        if(x + taille_x > grid_width){
+            flotte[currentboat].setX(grid_width - taille_x + startX);
+
+        }
+        if(y < startY){
+            flotte[currentboat].setY(startY);
+        }
+        if(y + taille_y > grid_width){
+            flotte[currentboat].setY(grid_width - taille_y + startY);
+        }
+    }
+
+    private int whatboat(int x, int y){
+        for(int i = 0; i < 6; i++){
+            if(x >= flotte[i].getX() && x <= flotte[i].getX() + flotte[i].getTaille_x() * (grid_width / GRID_SIZE) - 10 && y >= flotte[i].getY() && y <= flotte[i].getY() + flotte[i].getTaille_y() * (grid_width / GRID_SIZE) - 10){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void alreadyPlaced(int currentX, int currentY, int currentboat){
+        int x = flotte[currentboat].getX();
+        int y = flotte[currentboat].getY();
+        for(int i = 0; i < 6; i++){
+            if(i != currentboat){
+                if(x >= flotte[i].getX()) {
+                    if(x <= flotte[i].getX() + flotte[i].getTaille_x() * cellSize) {
+                        if(y >= flotte[i].getY()) {
+                            if(y <= flotte[i].getY() + flotte[i].getTaille_y() * cellSize) {
+                                flotte[currentboat].setX(currentX);
+                                flotte[currentboat].setY(currentY);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
