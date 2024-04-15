@@ -1,6 +1,9 @@
 package com.CoMaTo.bataillenavale;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -18,9 +21,25 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.fragment_container, main_menu.newInstance());
-        //ft.add(R.id.fragment_container, player_menu.newInstance());
-        //ft.add(R.id.fragment_container, flotte_menu.newInstance());
         ft.commit();
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        binding.confButton.setOnClickListener(v -> {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment_container, conf_menu.newInstance());
+            ft.commit();
+        });
+        binding.menuPlayButton.setOnClickListener(v -> {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment_container, main_menu.newInstance());
+            ft.commit();
+        });
+        binding.flotteButton.setOnClickListener(v -> {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment_container, flotte_menu.newInstance());
+            ft.commit();
+        });
+    }
 }
