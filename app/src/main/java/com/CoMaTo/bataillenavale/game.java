@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 public class game extends AppCompatActivity {
 
-    private GameView gameView;
+    private PlacementView gameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

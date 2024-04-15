@@ -7,13 +7,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
-public class GameView extends View {
+public class PlacementView extends View {
     private Bitmap backBitmap;
     private static String[] LETTER = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
     private static String[] NUMBER = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
@@ -27,7 +28,7 @@ public class GameView extends View {
     private Bateau[] flotte = new Bateau[6];
     private Bitmap[] bateaux = new Bitmap[6];
     private int currentBoat = -1;
-    public GameView(Context context, AttributeSet attrs) {
+    public PlacementView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         //initialisation des variables selon la taille de l'écran du téléphone
