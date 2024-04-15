@@ -1,4 +1,4 @@
-package com.example.bataillenavale;
+package com.CoMaTo.bataillenavale;
 
 import android.os.Bundle;
 
@@ -8,8 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.bataillenavale.databinding.FragmentConfMenuBinding;
-import com.example.bataillenavale.databinding.FragmentFlotteMenuBinding;
+import com.CoMaTo.bataillenavale.databinding.FragmentConfMenuBinding;
+import com.CoMaTo.bataillenavale.databinding.FragmentFlotteMenuBinding;
 
 public class flotte_menu extends Fragment {
 

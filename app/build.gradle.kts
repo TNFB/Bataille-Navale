@@ -3,15 +3,15 @@ plugins {
 }
 
 android {
-    namespace = "com.example.bataillenavale"
+    namespace = "com.CoMaTo.bataillenavale"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.bataillenavale"
+        applicationId = "com.CoMaTo.bataillenavale"
         minSdk = 32
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "5.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -23,6 +23,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {

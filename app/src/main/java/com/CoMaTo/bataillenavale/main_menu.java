@@ -1,16 +1,15 @@
-package com.example.bataillenavale;
+package com.CoMaTo.bataillenavale;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.bataillenavale.databinding.FragmentMainMenuBinding;
+import com.CoMaTo.bataillenavale.databinding.FragmentMainMenuBinding;
 
 public class main_menu extends Fragment {
     private FragmentMainMenuBinding binding;

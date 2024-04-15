@@ -1,7 +1,7 @@
-package com.example.bataillenavale;
+package com.CoMaTo.bataillenavale;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.example.bataillenavale.GameView;
+
 public class game extends AppCompatActivity {
 
     private GameView gameView;

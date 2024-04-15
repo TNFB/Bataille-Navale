@@ -1,4 +1,4 @@
-package com.example.bataillenavale;
+package com.CoMaTo.bataillenavale;
 
 import org.junit.Test;
 

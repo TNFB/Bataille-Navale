@@ -1,4 +1,4 @@
-package com.example.bataillenavale;
+package com.CoMaTo.bataillenavale;
 
 import android.os.Bundle;
 
@@ -8,13 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.bataillenavale.databinding.FragmentConfMenuBinding;
-import com.example.bataillenavale.databinding.FragmentMainMenuBinding;
+import com.CoMaTo.bataillenavale.databinding.FragmentConfMenuBinding;
+import com.CoMaTo.bataillenavale.databinding.FragmentFlotteMenuBinding;
+import com.CoMaTo.bataillenavale.databinding.FragmentPlayerMenuBinding;
 
-public class conf_menu extends Fragment {
-    private FragmentConfMenuBinding binding;
-    public static conf_menu newInstance() {
-        conf_menu fragment = new conf_menu();
+public class player_menu extends Fragment {
+    private FragmentPlayerMenuBinding binding;
+    public static player_menu newInstance() {
+        player_menu fragment = new player_menu();
         Bundle args = new Bundle();
         return fragment;
     }
@@ -27,7 +28,7 @@ public class conf_menu extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentConfMenuBinding.inflate(inflater, container, false);
+        binding = FragmentPlayerMenuBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

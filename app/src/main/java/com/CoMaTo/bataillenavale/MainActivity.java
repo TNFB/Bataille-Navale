@@ -1,13 +1,11 @@
-package com.example.bataillenavale;
+package com.CoMaTo.bataillenavale;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 
-import com.example.bataillenavale.databinding.ActivityMainBinding;
-
-import java.util.List;
+import com.CoMaTo.bataillenavale.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;

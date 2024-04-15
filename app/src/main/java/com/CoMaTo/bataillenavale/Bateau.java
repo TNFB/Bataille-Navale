@@ -1,8 +1,5 @@
-package com.example.bataillenavale;
+package com.CoMaTo.bataillenavale;
 
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 public class Bateau {
     private int taille_x;
