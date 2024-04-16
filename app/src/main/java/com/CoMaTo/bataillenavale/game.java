@@ -12,14 +12,13 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 
 public class game extends AppCompatActivity {
     private GameView gameView;
     private static boolean turn = true;
-    private int[][] my_grid = new int[10][10];
+    public static int[][] my_grid = new int[10][10];
 
-    private int[][] ia_grid = new int[10][10];
+    public int[][] ia_grid = new int[10][10];
 
     private DataManager dataManager;
 
@@ -31,9 +30,11 @@ public class game extends AppCompatActivity {
         gameView = findViewById(R.id.GameView);
 
         dataManager = new DataManager(this);
-        dataManager.saveFlotte(dataManager.Flotte1(), "flotte1");
+        //dataManager.saveFlotte(dataManager.Flotte1(), "flotte1");
+        //dataManager.saveFlotte(dataManager.Flotte2(), "flotte2");
         gameView.setBateaux(dataManager.getFlotte("flotte1"));
         initGrid(my_grid, true);
+        initGrid(ia_grid, false);
         displaygrid();
     }
 
@@ -63,9 +64,10 @@ public class game extends AppCompatActivity {
             int startY = boat.getY();
 
             for (int i = 0; i < boatMatrix.length; i++) {
-                System.out.println(Arrays.toString(boatMatrix[i]));
                 for (int j = 0; j < boatMatrix[i].length; j++) {
-                        grid[startX + j][startY + i] = boatMatrix[i][j];
+                    if (startY + i >= 0 && startY + i < 10 && startX + j >= 0 && startX + j < 10) {
+                        grid[startY + i][startX + j] = boatMatrix[i][j];
+                    }
                 }
             }
         }
@@ -87,6 +89,16 @@ public class game extends AppCompatActivity {
         }
     }
 
-    private void updateGrid(int[][] grid,boolean turn){
+    public static int play(int[][] grid,int x, int y){
+        switch(grid[y][x]){
+            case 0:
+                grid[y][x] = 2;
+                return 2;
+            case 1:
+                grid[y][x] = 3;
+                return 3;
+            default:
+                return 0;
+        }
     }
 }

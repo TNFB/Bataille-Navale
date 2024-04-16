@@ -14,17 +14,25 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
+
 public class GameView extends View {
     private static String[] LETTER = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
     private static String[] NUMBER = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
     private static int[] boatDrawable = new int[]{R.drawable.bateau_2, R.drawable.bateau_3_3,R.drawable.bateau_3, R.drawable.bateau_3_1, R.drawable.bateau_4, R.drawable.bateau_5};
+
+    private static int[] hitDrawable = new int[]{R.drawable.cross, R.drawable.dot};
     private int startX, startY, cellSize;
     private static final int GRID_SIZE = 10;
     private int grid_width;
-    private Bitmap backBitmap;
-    private Bitmap[] bateaux = new Bitmap[6];
 
     private Bateau[] flotte = new Bateau[6];
+    private Bitmap backBitmap;
+    private Bitmap[] bateaux = new Bitmap[6];
+    ArrayList<Hit> my_hits = new ArrayList<>();
+    ArrayList<Bitmap> my_impacts = new ArrayList<>();
+    ArrayList<Hit> ia_hits = new ArrayList<>();
+    ArrayList<Bitmap> ia_impacts = new ArrayList<>();
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -45,27 +53,52 @@ public class GameView extends View {
             drawGrid(canvas);
             drawText(canvas);
             drawBackImage(canvas);
-            game.setTurn(false);
+            drawHits(canvas);
         } else {
             drawGrid(canvas);
             drawText(canvas);
             drawBackImage(canvas);
             drawBateaux(canvas);
-            game.setTurn(true);
         }
 
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        //au clic on change la vue avec bateau ou sans bateau en alternance
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            //on redessine la grille, le fond et on supprime les bateaux
+            int x = (int) (event.getX() / cellSize);
+            int y = (int) (event.getY() / cellSize);
+            //getResult(x, y, game.my_grid);
             invalidate();
+            return true;
         }
-
-        return true;
+        return super.onTouchEvent(event);
     }
+
+    private void getResult(int x, int y, int[][] grid){
+        int result = 0;
+        System.out.println("click 1");
+        if (game.getTurn()) {
+            System.out.println("your turn");
+            switch(game.play(game.my_grid,x, y)){
+                case 0:
+                    System.out.println("already played");
+                    invalidate();
+                    break;
+                case 1:
+                    System.out.println("touched");
+                    invalidate();
+
+                    break;
+                case 2:
+                    System.out.println("missed");
+
+                    break;
+            }
+        }
+        invalidate();
+    }
+
 
     public void setBateaux(Bateau[] boats){
         flotte = boats;
@@ -73,6 +106,21 @@ public class GameView extends View {
             bateaux[i] = BitmapFactory.decodeResource(getResources(), boatDrawable[i]);
             bateaux[i] = Bitmap.createScaledBitmap(bateaux[i], flotte[i].getTaille_x() * cellSize - 10, flotte[i].getTaille_y() * cellSize - 10, false);
         }
+    }
+
+    public void addHits(Hit hit){
+        if(game.getTurn()){
+            my_hits.add(hit);
+            Bitmap hitBitmap = BitmapFactory.decodeResource(getResources(), hitDrawable[hit.getTypeHit()]);
+            hitBitmap = Bitmap.createScaledBitmap(hitBitmap, cellSize, cellSize, false);
+            my_impacts.add(hitBitmap);
+        } else {
+            ia_hits.add(hit);
+            Bitmap hitBitmap = BitmapFactory.decodeResource(getResources(), hitDrawable[hit.getTypeHit()]);
+            hitBitmap = Bitmap.createScaledBitmap(hitBitmap, cellSize, cellSize, false);
+            ia_impacts.add(hitBitmap);
+        }
+
     }
 
     private void setBackBitmap(){
@@ -109,5 +157,11 @@ public class GameView extends View {
         for(int i = 0; i < 6; i++){
             canvas.drawBitmap(bateaux[i], startX + flotte[i].getX() * cellSize, startY + flotte[i].getY() * cellSize, new Paint());
         }
+    }
+
+    private void drawHits(Canvas canvas){
+        /*for(int i = 0; i < impacts.size(); i++){
+            canvas.drawBitmap(impacts.get(i), startX + hitsList.get(i).getX() * cellSize, startY + hitsList.get(i).getY() * cellSize, new Paint());
+        }*/
     }
 }
