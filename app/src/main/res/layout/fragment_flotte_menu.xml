@@ -7,9 +7,35 @@
     android:layout_height="match_parent"
     tools:context=".flotte_menu">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="flotte" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/flotte1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/flotte1" />
+
+        <Button
+            android:id="@+id/flotte2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/flotte2" />
+
+        <Button
+            android:id="@+id/flotte3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/flotte3" />
+
+        <Button
+            android:id="@+id/flotte4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/flotte4" />
+
+    </LinearLayout>
+
 </FrameLayout>

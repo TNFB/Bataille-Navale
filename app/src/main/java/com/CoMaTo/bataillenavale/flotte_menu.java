@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.CoMaTo.bataillenavale.databinding.FragmentConfMenuBinding;
 import com.CoMaTo.bataillenavale.databinding.FragmentFlotteMenuBinding;
 
 public class flotte_menu extends Fragment {
@@ -35,5 +34,14 @@ public class flotte_menu extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        binding.flotte1.setOnClickListener(v -> ConfigFlotte(1));
+        binding.flotte2.setOnClickListener(v -> ConfigFlotte(2));
+        binding.flotte3.setOnClickListener(v -> ConfigFlotte(3));
+        binding.flotte4.setOnClickListener(v -> ConfigFlotte(4));
+    }
+
+    public void ConfigFlotte(int num_flotte){
+        DataManager dataManager = new DataManager(getContext());
+        dataManager.initFlotte();
     }
 }
