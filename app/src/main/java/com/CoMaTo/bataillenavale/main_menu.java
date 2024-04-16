@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import com.CoMaTo.bataillenavale.databinding.FragmentMainMenuBinding;
 import com.CoMaTo.bataillenavale.databinding.ActivityMainBinding;
 
+import java.util.Objects;
+
 public class main_menu extends Fragment {
     private FragmentMainMenuBinding binding;
     private ActivityMainBinding binding2;
@@ -25,6 +27,8 @@ public class main_menu extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = new Intent(getActivity(), CheckWin.class);
+        requireActivity().stopService(intent);
     }
 
     @Override

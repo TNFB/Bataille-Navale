@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import com.CoMaTo.bataillenavale.databinding.FragmentFlotteMenuBinding;
 
 public class flotte_menu extends Fragment {
-
     private FragmentFlotteMenuBinding binding;
+
 
     public static flotte_menu newInstance() {
         flotte_menu fragment = new flotte_menu();

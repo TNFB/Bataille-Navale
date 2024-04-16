@@ -13,7 +13,7 @@ public class placement extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         placementView = findViewById(R.id.GameView);
         dataManager = new DataManager(this);
-        dataManager.saveFlotte(dataManager.Flotte1(), "flotte1");
+        dataManager.initFlotte();
         placementView.setBateaux(dataManager.getFlotte("flotte1"));
     }
 }

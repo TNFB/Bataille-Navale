@@ -7,10 +7,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 
@@ -20,7 +22,6 @@ public class GameView extends View {
     private static String[] LETTER = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
     private static String[] NUMBER = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
     private static int[] boatDrawable = new int[]{R.drawable.bateau_2, R.drawable.bateau_3_3,R.drawable.bateau_3, R.drawable.bateau_3_1, R.drawable.bateau_4, R.drawable.bateau_5};
-
     private static int[] hitDrawable = new int[]{R.drawable.cross, R.drawable.dot};
     private int startX, startY, cellSize;
     private static final int GRID_SIZE = 10;
@@ -32,6 +33,7 @@ public class GameView extends View {
     ArrayList<Bitmap> my_impacts = new ArrayList<>();
     ArrayList<Hit> ia_hits = new ArrayList<>();
     ArrayList<Bitmap> ia_impacts = new ArrayList<>();
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -52,7 +54,6 @@ public class GameView extends View {
             drawGrid(canvas);
             drawText(canvas);
             drawBackImage(canvas);
-            drawBateaux(canvas);
             drawHits(canvas);
 
         } else {
@@ -60,20 +61,31 @@ public class GameView extends View {
             drawText(canvas);
             drawBackImage(canvas);
             drawBateaux(canvas);
+            drawHits(canvas);
         }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            int x = (int) (event.getX() / cellSize);
-            int y = (int) (event.getY() / cellSize);
+            int x = (int) ((event.getX() - startX ) / cellSize);
+            int y = (int) ((event.getY() - startY) / cellSize);
             if(game.getTurn()){
-                Hit hit = game.play(game.ia_grid, x, y);
+                Hit hit = game.play(game.my_grid, x, y);
                 if(hit != null) {
                     addHits(hit);
-                    game.setTurn(false);
                     invalidate();
+                    if(hit.getTypeHit()==1){
+                        game.my_score++;
+                    }
+                    scheduler.schedule(new Runnable() {
+                        @Override
+                        public void run() {
+                            game.setTurn(!game.getTurn());
+                            invalidate();
+                            ia_turn();
+                        }
+                    }, 1, TimeUnit.SECONDS);
                 }
             }
         }
@@ -104,7 +116,6 @@ public class GameView extends View {
             hitBitmap = Bitmap.createScaledBitmap(hitBitmap, cellSize, cellSize, false);
             ia_impacts.add(hitBitmap);
         }
-
     }
     private void drawText(Canvas canvas){
         Paint paint = new Paint();
@@ -139,8 +150,43 @@ public class GameView extends View {
     }
 
     private void drawHits(Canvas canvas){
-        for(int i = 0; i < ia_impacts.size(); i++){
-            canvas.drawBitmap(ia_impacts.get(i), startX + ia_hits.get(i).getX() * cellSize, startY + ia_hits.get(i).getY() * cellSize, new Paint());
+        if(game.getTurn()){
+            for(int i = 0; i < my_impacts.size(); i++){
+                System.out.println(my_impacts.get(i));
+                canvas.drawBitmap(my_impacts.get(i), startX + my_hits.get(i).getX() * cellSize, startY + my_hits.get(i).getY() * cellSize, new Paint());
+            }
+        }
+        else {
+            for(int i = 0; i < ia_impacts.size(); i++){
+                System.out.println(ia_impacts.get(i));
+                canvas.drawBitmap(ia_impacts.get(i), startX + ia_hits.get(i).getX() * cellSize, startY + ia_hits.get(i).getY() * cellSize, new Paint());
+            }
+        }
+    }
+
+    private void ia_turn(){
+        int[] ia_play = IA.randomClick();
+        Hit hit = game.play(game.ia_grid, ia_play[0], ia_play[1]);
+        if(hit != null) {
+            addHits(hit);
+            if(hit.getTypeHit()==1){
+                game.ia_score++;
+            }
+            scheduler.schedule(new Runnable() {
+                @Override
+                public void run() {
+                    invalidate();
+                }
+            }, 500, TimeUnit.MILLISECONDS);
+            scheduler.schedule(new Runnable() {
+                @Override
+                public void run() {
+                    game.setTurn(!game.getTurn());
+                    invalidate();
+                }
+            }, 1500, TimeUnit.MILLISECONDS);
+        } else {
+            ia_turn();
         }
     }
 }
