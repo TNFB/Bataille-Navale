@@ -39,14 +39,13 @@ public class game extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         gameView = findViewById(R.id.GameView);
-
         Intent intent = new Intent(this, CheckWin.class);
         startService(intent);
 
         dataManager = new DataManager(this);
         dataManager.initFlotte();
 
-        flotte_choice = "flotte1";
+        flotte_choice = "flotte2";
         gameView.setBateaux(dataManager.getFlotte(flotte_choice));
         initGrid(my_grid, true);
         initGrid(ia_grid, false);
@@ -69,8 +68,6 @@ public class game extends AppCompatActivity {
             }
         }
         if(turn){
-            flotte = dataManager.getFlotte(flotte_choice);
-        } else {
             int random = (int)(Math.random() * 4 + 1);
             System.out.println(random);
             switch(random){
@@ -87,9 +84,11 @@ public class game extends AppCompatActivity {
                     flotte = dataManager.getFlotte("flotte4");
                     break;
                 default:
-                    flotte = dataManager.getFlotte("flotte1");
+                    flotte = dataManager.getFlotte("flotte2");
                     break;
             }
+        } else {
+            flotte = dataManager.getFlotte(flotte_choice);
         }
         for (Bateau boat : flotte) {
             int[][] boatMatrix = boat.getMatrice();

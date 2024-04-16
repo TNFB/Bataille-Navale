@@ -152,13 +152,11 @@ public class GameView extends View {
     private void drawHits(Canvas canvas){
         if(game.getTurn()){
             for(int i = 0; i < my_impacts.size(); i++){
-                System.out.println(my_impacts.get(i));
                 canvas.drawBitmap(my_impacts.get(i), startX + my_hits.get(i).getX() * cellSize, startY + my_hits.get(i).getY() * cellSize, new Paint());
             }
         }
         else {
             for(int i = 0; i < ia_impacts.size(); i++){
-                System.out.println(ia_impacts.get(i));
                 canvas.drawBitmap(ia_impacts.get(i), startX + ia_hits.get(i).getX() * cellSize, startY + ia_hits.get(i).getY() * cellSize, new Paint());
             }
         }
