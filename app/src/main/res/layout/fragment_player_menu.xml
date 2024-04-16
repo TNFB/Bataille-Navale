@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="525dp"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
@@ -22,6 +22,7 @@
                 android:layout_width="3dp"
                 android:layout_height="93dp"
                 android:layout_weight="1"
+                android:contentDescription="Retour en arrière"
                 android:scaleType="fitCenter"
                 android:src="@drawable/back" />
 
@@ -30,6 +31,7 @@
                 android:layout_width="65dp"
                 android:layout_height="163dp"
                 android:layout_weight="1"
+                android:contentDescription="Profil"
                 android:src="@drawable/user" />
 
             <ImageButton
@@ -37,6 +39,7 @@
                 android:layout_width="3dp"
                 android:layout_height="103dp"
                 android:layout_weight="1"
+                android:contentDescription="Sauvegarder"
                 android:scaleType="fitCenter"
                 android:src="@drawable/save" />
         </LinearLayout>
@@ -56,7 +59,6 @@
             android:layout_height="wrap_content"
             android:hint=""
             android:textColor="#F6580E"
-            android:textColorHint="#F6580E"
             android:textSize="34sp" />
 
         <LinearLayout

@@ -93,5 +93,15 @@ public class DataManager {
         return pseudo;
     }
 
+    // Récupérer le niveuau du joueur
+    public int getNiveau() {
+        return sharedPreferences.getInt("niveau", 1);
+    }
+
+    // Monter de niveau
+    public void upNiveau() {
+        int niveau = getNiveau();
+        sharedPreferences.edit().putInt("niveau", niveau + 1).apply();
+    }
 }
 

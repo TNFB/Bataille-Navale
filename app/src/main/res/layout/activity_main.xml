@@ -29,19 +29,22 @@
                 android:id="@+id/playerButton"
                 android:layout_width="137sp"
                 android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/ic_dialog_dialer" />
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/user" />
 
             <ImageButton
                 android:id="@+id/menuPlayButton"
                 android:layout_width="137sp"
                 android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/ic_dialog_dialer" />
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/main_menu" />
 
             <ImageButton
                 android:id="@+id/flotteButton"
                 android:layout_width="137sp"
                 android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/ic_dialog_dialer" />
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/flotte_config" />
         </LinearLayout>
     </LinearLayout>
 

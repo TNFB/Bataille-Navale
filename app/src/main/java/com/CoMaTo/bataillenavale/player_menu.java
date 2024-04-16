@@ -3,12 +3,12 @@ package com.CoMaTo.bataillenavale;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import com.CoMaTo.bataillenavale.databinding.FragmentPlayerMenuBinding;
 
 public class player_menu extends Fragment {
@@ -37,10 +37,14 @@ public class player_menu extends Fragment {
         editText = view.findViewById(R.id.editText);
         saveButton = view.findViewById(R.id.saveButton);
         backButton = view.findViewById(R.id.backButton);
+        TextView levelPrint = view.findViewById(R.id.levelPrint);
 
         DataManager dataManager = new DataManager(requireContext());
         String pseudo = dataManager.getPseudo();
         editText.setHint(pseudo);
+
+        int niveau = dataManager.getNiveau();
+        levelPrint.setText(String.valueOf(niveau));
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
