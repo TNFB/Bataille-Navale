@@ -77,5 +77,21 @@ public class DataManager {
         flotte[5] = new Bateau(8, 5, 1, 5,R.drawable.bateau_5,Bateau.getMatriceBoat(6));
         saveFlotte(flotte, "flotte4");
     }
+
+    // Enregistrer le pseudo
+    public void savePseudo(String pseudo) {
+        sharedPreferences.edit().putString("pseudo", pseudo).apply();
+    }
+
+    // Récupérer le pseudo
+    public String getPseudo() {
+        String pseudo = sharedPreferences.getString("pseudo", "");
+        if (pseudo.isEmpty()) {
+            pseudo = "Joueur";
+            savePseudo(pseudo);
+        }
+        return pseudo;
+    }
+
 }
 
