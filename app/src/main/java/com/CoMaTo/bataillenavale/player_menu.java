@@ -2,6 +2,8 @@ package com.CoMaTo.bataillenavale;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ public class player_menu extends Fragment {
     private FragmentPlayerMenuBinding binding;
     private EditText editText;
     private ImageButton saveButton;
+    private ImageButton backButton;
 
     public static player_menu newInstance() {
         player_menu fragment = new player_menu();
@@ -33,6 +36,7 @@ public class player_menu extends Fragment {
 
         editText = view.findViewById(R.id.editText);
         saveButton = view.findViewById(R.id.saveButton);
+        backButton = view.findViewById(R.id.backButton);
 
         DataManager dataManager = new DataManager(requireContext());
         String pseudo = dataManager.getPseudo();
@@ -48,6 +52,12 @@ public class player_menu extends Fragment {
                     dataManager.savePseudo(newPseudo);
                 }
             }
+        });
+
+        backButton.setOnClickListener(v -> {
+            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment_container, main_menu.newInstance());
+            ft.commit();
         });
 
         return view;

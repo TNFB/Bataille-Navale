@@ -1,6 +1,7 @@
 package com.CoMaTo.bataillenavale;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +11,8 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +37,7 @@ public class GameView extends View {
     ArrayList<Hit> ia_hits = new ArrayList<>();
     ArrayList<Bitmap> ia_impacts = new ArrayList<>();
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private AlertDialog.Builder tour = new AlertDialog.Builder(this.getContext());
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -186,5 +190,15 @@ public class GameView extends View {
         } else {
             ia_turn();
         }
+    }
+    private void displayTour(){
+        tour.setTitle("Tour");
+        if(game.getTurn()){
+            tour.setMessage("C'est à votre tour de jouer");
+        } else {
+            tour.setMessage("C'est à l'IA de jouer");
+        }
+        tour.setNeutralButton("OK", null);
+        tour.show();
     }
 }

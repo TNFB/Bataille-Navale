@@ -26,9 +26,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        binding.confButton.setOnClickListener(v -> {
+        binding.playerButton.setOnClickListener(v -> {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_container, conf_menu.newInstance());
+            ft.replace(R.id.fragment_container, player_menu.newInstance());
             ft.commit();
         });
         binding.menuPlayButton.setOnClickListener(v -> {

@@ -26,7 +26,7 @@
             android:layout_marginTop="50dp">
 
             <ImageButton
-                android:id="@+id/confButton"
+                android:id="@+id/playerButton"
                 android:layout_width="137sp"
                 android:layout_height="wrap_content"
                 app:srcCompat="@android:drawable/ic_dialog_dialer" />
