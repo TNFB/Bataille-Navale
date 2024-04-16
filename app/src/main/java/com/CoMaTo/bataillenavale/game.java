@@ -45,7 +45,7 @@ public class game extends AppCompatActivity {
         dataManager = new DataManager(this);
         dataManager.initFlotte();
 
-        flotte_choice = "flotte2";
+        flotte_choice = "flotte"+(int)(Math.random() * 4 + 1);
         gameView.setBateaux(dataManager.getFlotte(flotte_choice));
         initGrid(my_grid, true);
         initGrid(ia_grid, false);

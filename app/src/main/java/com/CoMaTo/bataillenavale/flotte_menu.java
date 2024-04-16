@@ -2,6 +2,7 @@ package com.CoMaTo.bataillenavale;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -10,8 +11,11 @@ import android.view.ViewGroup;
 
 import com.CoMaTo.bataillenavale.databinding.FragmentFlotteMenuBinding;
 
+import java.util.Objects;
+
 public class flotte_menu extends Fragment {
     private FragmentFlotteMenuBinding binding;
+    private DataManager dataManager;
 
 
     public static flotte_menu newInstance() {
@@ -23,10 +27,11 @@ public class flotte_menu extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dataManager = new DataManager(requireContext());
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentFlotteMenuBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -34,6 +39,7 @@ public class flotte_menu extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        dataManager.initFlotte();
         binding.flotte1.setOnClickListener(v -> ConfigFlotte(1));
         binding.flotte2.setOnClickListener(v -> ConfigFlotte(2));
         binding.flotte3.setOnClickListener(v -> ConfigFlotte(3));
@@ -41,7 +47,7 @@ public class flotte_menu extends Fragment {
     }
 
     public void ConfigFlotte(int num_flotte){
-        DataManager dataManager = new DataManager(getContext());
-        dataManager.initFlotte();
+        Bateau[] flotte = dataManager.getFlotte("flotte"+num_flotte);
+        //PlacementView placementView = new PlacementView(getContext(), null);
     }
 }
