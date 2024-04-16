@@ -10,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.CoMaTo.bataillenavale.databinding.FragmentMainMenuBinding;
+import com.CoMaTo.bataillenavale.databinding.ActivityMainBinding;
 
 public class main_menu extends Fragment {
     private FragmentMainMenuBinding binding;
+    private ActivityMainBinding binding2;
     public static main_menu newInstance() {
         main_menu fragment = new main_menu();
         Bundle args = new Bundle();
@@ -29,6 +31,7 @@ public class main_menu extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentMainMenuBinding.inflate(inflater, container, false);
+        binding2 = ActivityMainBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
     @Override
@@ -38,6 +41,13 @@ public class main_menu extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), game.class);
+                startActivity(intent);
+            }
+        });
+        binding2.flotteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), placement.class);
                 startActivity(intent);
             }
         });

@@ -18,20 +18,18 @@ public class game extends AppCompatActivity {
     private static boolean turn = true;
     public static int[][] my_grid = new int[10][10];
 
-    public int[][] ia_grid = new int[10][10];
+    public static int[][] ia_grid = new int[10][10];
 
     private DataManager dataManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         gameView = findViewById(R.id.GameView);
-
         dataManager = new DataManager(this);
-        //dataManager.saveFlotte(dataManager.Flotte1(), "flotte1");
-        //dataManager.saveFlotte(dataManager.Flotte2(), "flotte2");
+        dataManager.saveFlotte(dataManager.Flotte1(), "flotte1");
+        dataManager.saveFlotte(dataManager.Flotte2(), "flotte2");
         gameView.setBateaux(dataManager.getFlotte("flotte1"));
         initGrid(my_grid, true);
         initGrid(ia_grid, false);
@@ -89,16 +87,16 @@ public class game extends AppCompatActivity {
         }
     }
 
-    public static int play(int[][] grid,int x, int y){
+    public static Hit play(int[][] grid,int x, int y){
         switch(grid[y][x]){
             case 0:
                 grid[y][x] = 2;
-                return 2;
+                return new Hit(x, y, 2);
             case 1:
                 grid[y][x] = 3;
-                return 3;
+                return new Hit(x, y, 3);
             default:
-                return 0;
+                return null;
         }
     }
 }

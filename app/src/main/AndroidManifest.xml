@@ -9,10 +9,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.BatailleNavale"
-        tools:targetApi="31"
         android:icon="@drawable/logo">
         <activity
             android:name=".game"
+            android:exported="false" />
+        <activity
+            android:name=".placement"
             android:exported="false" />
         <activity
             android:name="com.CoMaTo.bataillenavale.MainActivity"

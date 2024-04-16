@@ -25,7 +25,6 @@ public class GameView extends View {
     private int startX, startY, cellSize;
     private static final int GRID_SIZE = 10;
     private int grid_width;
-
     private Bateau[] flotte = new Bateau[6];
     private Bitmap backBitmap;
     private Bitmap[] bateaux = new Bitmap[6];
@@ -53,14 +52,15 @@ public class GameView extends View {
             drawGrid(canvas);
             drawText(canvas);
             drawBackImage(canvas);
+            drawBateaux(canvas);
             drawHits(canvas);
+
         } else {
             drawGrid(canvas);
             drawText(canvas);
             drawBackImage(canvas);
             drawBateaux(canvas);
         }
-
     }
 
     @Override
@@ -68,44 +68,28 @@ public class GameView extends View {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             int x = (int) (event.getX() / cellSize);
             int y = (int) (event.getY() / cellSize);
-            //getResult(x, y, game.my_grid);
-            invalidate();
-            return true;
-        }
-        return super.onTouchEvent(event);
-    }
-
-    private void getResult(int x, int y, int[][] grid){
-        int result = 0;
-        System.out.println("click 1");
-        if (game.getTurn()) {
-            System.out.println("your turn");
-            switch(game.play(game.my_grid,x, y)){
-                case 0:
-                    System.out.println("already played");
+            if(game.getTurn()){
+                Hit hit = game.play(game.ia_grid, x, y);
+                if(hit != null) {
+                    addHits(hit);
+                    game.setTurn(false);
                     invalidate();
-                    break;
-                case 1:
-                    System.out.println("touched");
-                    invalidate();
-
-                    break;
-                case 2:
-                    System.out.println("missed");
-
-                    break;
+                }
             }
         }
-        invalidate();
+        return true;
     }
-
-
     public void setBateaux(Bateau[] boats){
         flotte = boats;
         for(int i = 0; i < 6; i++){
             bateaux[i] = BitmapFactory.decodeResource(getResources(), boatDrawable[i]);
             bateaux[i] = Bitmap.createScaledBitmap(bateaux[i], flotte[i].getTaille_x() * cellSize - 10, flotte[i].getTaille_y() * cellSize - 10, false);
         }
+    }
+
+    private void setBackBitmap(){
+        backBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.background_grid);
+        backBitmap = Bitmap.createScaledBitmap(backBitmap, grid_width, grid_width, false);
     }
 
     public void addHits(Hit hit){
@@ -121,11 +105,6 @@ public class GameView extends View {
             ia_impacts.add(hitBitmap);
         }
 
-    }
-
-    private void setBackBitmap(){
-        backBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.background_grid);
-        backBitmap = Bitmap.createScaledBitmap(backBitmap, grid_width, grid_width, false);
     }
     private void drawText(Canvas canvas){
         Paint paint = new Paint();
@@ -160,8 +139,8 @@ public class GameView extends View {
     }
 
     private void drawHits(Canvas canvas){
-        /*for(int i = 0; i < impacts.size(); i++){
-            canvas.drawBitmap(impacts.get(i), startX + hitsList.get(i).getX() * cellSize, startY + hitsList.get(i).getY() * cellSize, new Paint());
-        }*/
+        for(int i = 0; i < ia_impacts.size(); i++){
+            canvas.drawBitmap(ia_impacts.get(i), startX + ia_hits.get(i).getX() * cellSize, startY + ia_hits.get(i).getY() * cellSize, new Paint());
+        }
     }
 }
