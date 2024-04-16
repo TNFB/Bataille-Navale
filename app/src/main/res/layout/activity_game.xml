@@ -7,12 +7,11 @@
     tools:context=".game">
 
     <!-- Ajoutez votre vue personnalisée ici -->
-    <com.CoMaTo.bataillenavale.PlacementView
+    <com.CoMaTo.bataillenavale.GameView
         android:id="@+id/GameView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="400dp"
         />
 
-    <!-- Autres éléments de mise en page (boutons, images, etc.) -->
 </RelativeLayout>

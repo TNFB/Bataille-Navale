@@ -1,20 +1,23 @@
 package com.CoMaTo.bataillenavale;
 
 
-public class Bateau {
+import java.io.Serializable;
+
+public class Bateau implements Serializable {
     private int taille_x;
     private int taille_y;
     private int x;
     private int y;
     private int image;
+    private int[][] matrice = new int[taille_x][taille_y];
 
-    public Bateau(int x, int y, int taille_x, int taille_y, int image) {
+    public Bateau(int x, int y, int taille_x, int taille_y, int image, int[][] matrice) {
         this.x = x;
         this.y = y;
         this.taille_x = taille_x;
         this.taille_y = taille_y;
         this.image = image;
-
+        this.matrice = matrice;
     }
 
     public int getX() {
@@ -51,5 +54,28 @@ public class Bateau {
 
     public int getImage() {
         return image;
+    }
+
+    public int[][] getMatrice() {
+        return matrice;
+    }
+
+    public static int[][] getMatriceBoat(int i) {
+        switch (i) {
+            case 1:
+                return new int[][]{{1, 1}};
+            case 2:
+                return new int[][]{{1, 0}, {1, 1}, {1, 1}, {0, 1}};
+            case 3:
+                return new int[][]{{1}, {1}, {1}};
+            case 4:
+                return new int[][]{{1, 0}, {1, 1}, {1, 0}};
+            case 5:
+                return new int[][]{{1}, {1}, {1}, {1}};
+            case 6:
+                return new int[][]{{1}, {1}, {1}, {1}, {1}};
+            default:
+                break;
+        } return new int[][]{{0}};
     }
 }
