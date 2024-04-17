@@ -1,29 +1,10 @@
 package com.CoMaTo.bataillenavale;
-import androidx.annotation.Nullable;
+
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.content.Intent;
-import android.app.Service;
-import android.content.res.AssetManager;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Looper;
-
-import com.CoMaTo.bataillenavale.databinding.ActivityGameBinding;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.Provider;
 
 public class game extends AppCompatActivity {
-    private GameView gameView;
     private static boolean turn = true;
     public static int[][] my_grid = new int[10][10];
 
@@ -34,13 +15,12 @@ public class game extends AppCompatActivity {
 
     private String flotte_choice;
     private DataManager dataManager;
-    public static ActivityGameBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        gameView = findViewById(R.id.GameView);
+        GameView gameView = findViewById(R.id.GameView);
 
 
         Intent intent = new Intent(this, CheckWin.class);
@@ -52,7 +32,6 @@ public class game extends AppCompatActivity {
         gameView.setBateaux(dataManager.getFlotte(flotte_choice));
         initGrid(my_grid, true);
         initGrid(ia_grid, false);
-        displaygrid();
     }
 
     public static void setTurn(boolean turn){
@@ -74,9 +53,6 @@ public class game extends AppCompatActivity {
             int random = (int)(Math.random() * 4 + 1);
             System.out.println(random);
             switch(random){
-                case 1:
-                    flotte = dataManager.getFlotte("flotte1");
-                    break;
                 case 2:
                     flotte = dataManager.getFlotte("flotte2");
                     break;
@@ -87,7 +63,7 @@ public class game extends AppCompatActivity {
                     flotte = dataManager.getFlotte("flotte4");
                     break;
                 default:
-                    flotte = dataManager.getFlotte("flotte2");
+                    flotte = dataManager.getFlotte("flotte1");
                     break;
             }
         } else {
@@ -109,20 +85,6 @@ public class game extends AppCompatActivity {
 
     }
 
-    private void displaygrid(){
-        //affichage de my grid et de ia grid l'une à côté de l'autre
-        System.out.println("My grid:               IA grid:");
-        for(int i = 0; i < 10; i++){
-            for(int j = 0; j < 10; j++){
-                System.out.print(my_grid[i][j] + " ");
-            }
-            System.out.print("   ");
-            for(int j = 0; j < 10; j++){
-                System.out.print(ia_grid[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
 
     public static Hit play(int[][] grid,int x, int y){
         switch(grid[y][x]){

@@ -6,18 +6,11 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 
-import com.CoMaTo.bataillenavale.databinding.ActivityGameBinding;
-
-import java.security.Provider;
-
 public class CheckWin extends Service {
     private final Handler handler = new Handler(Looper.getMainLooper());
-    private game Game;
-
     @Override
     public void onCreate() {
         super.onCreate();
-        Game = new game();
     }
     private final Runnable CheckWin = new Runnable() {
         @Override
@@ -33,21 +26,18 @@ public class CheckWin extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        System.out.println("lancé");
         handler.post(CheckWin);
         return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
-        System.out.println("arreté");
         handler.removeCallbacks(CheckWin);
         super.onDestroy();
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        // We don't provide binding, so return null
         return null;
     }
 }

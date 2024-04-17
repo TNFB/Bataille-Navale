@@ -4,19 +4,17 @@ package com.CoMaTo.bataillenavale;
 import java.io.Serializable;
 
 public class Bateau implements Serializable {
-    private int taille_x;
-    private int taille_y;
+    private final int taille_x;
+    private final int taille_y;
     private int x;
     private int y;
-    private int image;
-    private int[][] matrice = new int[taille_x][taille_y];
+    private final int[][] matrice;
 
-    public Bateau(int x, int y, int taille_x, int taille_y, int image, int[][] matrice) {
+    public Bateau(int x, int y, int taille_x, int taille_y, int[][] matrice) {
         this.x = x;
         this.y = y;
         this.taille_x = taille_x;
         this.taille_y = taille_y;
-        this.image = image;
         this.matrice = matrice;
     }
 
@@ -40,20 +38,9 @@ public class Bateau implements Serializable {
         return taille_x;
     }
 
-    public void setTaille_x(int taille_x) {
-        this.taille_x = taille_x;
-    }
 
     public int getTaille_y() {
         return taille_y;
-    }
-
-    public void setTaille_y(int taille_y) {
-        this.taille_y = taille_y;
-    }
-
-    public int getImage() {
-        return image;
     }
 
     public int[][] getMatrice() {

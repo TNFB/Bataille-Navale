@@ -1,9 +1,6 @@
 package com.CoMaTo.bataillenavale;
 
-import static android.app.PendingIntent.getActivity;
-
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,31 +11,26 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-
-import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
 import androidx.annotation.NonNull;
-
-import com.CoMaTo.bataillenavale.databinding.ActivityGameBinding;
-import com.CoMaTo.bataillenavale.databinding.ActivityMainBinding;
-
 import java.util.ArrayList;
 
 public class GameView extends View {
-    private static String[] LETTER = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
-    private static String[] NUMBER = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-    private static int[] boatDrawable = new int[]{R.drawable.bateau_2, R.drawable.bateau_3_3,R.drawable.bateau_3, R.drawable.bateau_3_1, R.drawable.bateau_4, R.drawable.bateau_5};
-    private static int[] hitDrawable = new int[]{R.drawable.cross, R.drawable.dot};
-    private int startX, startY, cellSize;
+    private static final String[] LETTER = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+    private static final String[] NUMBER = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+    private static final int[] boatDrawable = new int[]{R.drawable.bateau_2, R.drawable.bateau_3_3,R.drawable.bateau_3, R.drawable.bateau_3_1, R.drawable.bateau_4, R.drawable.bateau_5};
+    private static final int[] hitDrawable = new int[]{R.drawable.cross, R.drawable.dot};
+    private final int startX;
+    private final int startY;
+    private final int cellSize;
     private static final int GRID_SIZE = 10;
-    private int phoneWidth;
-    private int grid_width;
+    private final int phoneWidth;
+    private final int grid_width;
     private Bateau[] flotte = new Bateau[6];
     private Bitmap backBitmap;
-    private Bitmap[] bateaux = new Bitmap[6];
+    private final Bitmap[] bateaux = new Bitmap[6];
     ArrayList<Hit> my_hits = new ArrayList<>();
     ArrayList<Bitmap> my_impacts = new ArrayList<>();
     ArrayList<Hit> ia_hits = new ArrayList<>();
@@ -78,6 +70,7 @@ public class GameView extends View {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -101,13 +94,10 @@ public class GameView extends View {
                             getContext().startActivity(intent);
                         }
                     }
-                    scheduler.schedule(new Runnable() {
-                        @Override
-                        public void run() {
-                            game.setTurn(!game.getTurn());
-                            invalidate();
-                            ia_turn();
-                        }
+                    scheduler.schedule(() -> {
+                        game.setTurn(!game.getTurn());
+                        invalidate();
+                        ia_turn();
                     }, 1, TimeUnit.SECONDS);
                 }
             }
@@ -115,7 +105,6 @@ public class GameView extends View {
         return true;
     }
     public void setBateaux(Bateau[] boats){
-        System.out.println("bateaux ajoutés");
         flotte = boats;
         for(int i = 0; i < 6; i++){
             bateaux[i] = BitmapFactory.decodeResource(getResources(), boatDrawable[i]);
@@ -205,18 +194,10 @@ public class GameView extends View {
             if(hit.getTypeHit()==1){
                 game.my_score++;
             }
-            scheduler.schedule(new Runnable() {
-                @Override
-                public void run() {
-                    invalidate();
-                }
-            }, 500, TimeUnit.MILLISECONDS);
-            scheduler.schedule(new Runnable() {
-                @Override
-                public void run() {
-                    game.setTurn(!game.getTurn());
-                    invalidate();
-                }
+            scheduler.schedule(() -> invalidate(), 500, TimeUnit.MILLISECONDS);
+            scheduler.schedule(() -> {
+                game.setTurn(!game.getTurn());
+                invalidate();
             }, 1500, TimeUnit.MILLISECONDS);
         } else {
             ia_turn();

@@ -1,9 +1,9 @@
 package com.CoMaTo.bataillenavale;
 
 public class Hit {
-    private int x;
-    private int y;
-    private int type;
+    private final int x;
+    private final int y;
+    private final int type;
 
     public Hit(int x, int y, int type) {
         this.x = x;
@@ -21,17 +21,5 @@ public class Hit {
 
     public int getTypeHit() {
         return type;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public void setTypeHit(int type) {
-        this.type = type;
     }
 }

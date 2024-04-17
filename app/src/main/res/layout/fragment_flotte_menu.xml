@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/background_game"
     android:layout_height="match_parent"
-    tools:context=".flotte_menu">
+    tools:context=".placement">
 
     <LinearLayout
         android:layout_width="match_parent"

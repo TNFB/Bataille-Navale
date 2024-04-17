@@ -7,25 +7,23 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
-
 public class PlacementView extends View {
-    private static String[] LETTER = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
-    private static String[] NUMBER = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-    private static int[] boatDrawable = new int[]{R.drawable.bateau_2, R.drawable.bateau_3_3,R.drawable.bateau_3, R.drawable.bateau_3_1, R.drawable.bateau_4, R.drawable.bateau_5};
-    private int startX, startY, cellSize;
+    private static final String[] LETTER = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+    private static final String[] NUMBER = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+    private static final int[] boatDrawable = new int[]{R.drawable.bateau_2, R.drawable.bateau_3_3,R.drawable.bateau_3, R.drawable.bateau_3_1, R.drawable.bateau_4, R.drawable.bateau_5};
+    private final int startX;
+    private final int startY;
+    private final int cellSize;
     private static final int GRID_SIZE = 10;
-    private int grid_width;
+    private final int grid_width;
     private Bateau[] flotte = new Bateau[6];
     private Bitmap backBitmap;
-    private Bitmap[] bateaux = new Bitmap[6];
+    private final Bitmap[] bateaux = new Bitmap[6];
     private int offsetX, offsetY;
     private boolean isDragging = false;
 
@@ -70,6 +68,7 @@ public class PlacementView extends View {
         return flotte;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getAction();
@@ -91,9 +90,8 @@ public class PlacementView extends View {
                     flotte[currentBoat].setX((int) (event.getX() - offsetX)/cellSize);
                     flotte[currentBoat].setY((int) (event.getY() - offsetY)/cellSize);
                     isInside(currentBoat);
-                    checkBoatPosition(currentBoat);
                     alreadyPlaced(currentX, currentY, currentBoat);
-                    invalidate();  // Redessine le Canvas
+                    invalidate();
                 }
                 break;
             case MotionEvent.ACTION_UP:
@@ -134,11 +132,6 @@ public class PlacementView extends View {
             canvas.drawBitmap(bateaux[i], startX + flotte[i].getX() * cellSize, startY + flotte[i].getY() * cellSize, new Paint());
         }
     }
-    private void checkBoatPosition(int currentboat){
-        int x = flotte[currentboat].getX();
-        int y = flotte[currentboat].getY();
-
-    }
 
     private void isInside(int currentboat){
         int x = flotte[currentboat].getX();
@@ -149,7 +142,6 @@ public class PlacementView extends View {
             flotte[currentboat].setX(0);
         }
         if(x + taille_x > 10){
-            System.out.println("trop loin");
             flotte[currentboat].setX(10 - taille_x);
 
         }

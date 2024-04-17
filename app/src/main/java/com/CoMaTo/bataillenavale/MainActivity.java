@@ -1,13 +1,10 @@
 package com.CoMaTo.bataillenavale;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-
-
 import com.CoMaTo.bataillenavale.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         ft.add(R.id.fragment_container, main_menu.newInstance());
         ft.commit();
     }
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onResume() {
         super.onResume();
@@ -38,12 +36,9 @@ public class MainActivity extends AppCompatActivity {
             ft.replace(R.id.fragment_container, main_menu.newInstance());
             ft.commit();
         });
-        binding.flotteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, placement.class);
-                startActivity(intent);
-            }
+        binding.flotteButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, placement.class);
+            startActivity(intent);
         });
     }
 }

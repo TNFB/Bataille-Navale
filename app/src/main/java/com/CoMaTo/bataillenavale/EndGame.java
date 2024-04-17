@@ -1,14 +1,9 @@
 package com.CoMaTo.bataillenavale;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import com.CoMaTo.bataillenavale.databinding.ActivityEndGameBinding;
 
 public class EndGame extends AppCompatActivity {
@@ -22,6 +17,7 @@ public class EndGame extends AppCompatActivity {
         setContentView(binding.getRoot());
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onResume() {
         super.onResume();
