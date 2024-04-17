@@ -85,7 +85,7 @@ public class GameView extends View {
                     addHits(hit);
                     invalidate();
                     if(hit.getTypeHit()==1){
-                        game.my_score++;
+                        game.ia_score++;
                         if(endgame){
                             Intent intent = new Intent(getContext(), CheckWin.class);
                             getContext().stopService(intent);
@@ -185,7 +185,7 @@ public class GameView extends View {
         if(hit != null) {
             addHits(hit);
             if(hit.getTypeHit()==1){
-                game.ia_score++;
+                game.my_score++;
             }
             scheduler.schedule(new Runnable() {
                 @Override
@@ -207,7 +207,7 @@ public class GameView extends View {
             Intent intent = new Intent(getContext(), CheckWin.class);
             getContext().stopService(intent);
             intent = new Intent(getContext(), EndGame.class);
-            intent.putExtra("win", 2);
+            intent.putExtra("win", 0);
             getContext().startActivity(intent);
         }
     }
