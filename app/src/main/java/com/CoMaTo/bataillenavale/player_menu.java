@@ -15,7 +15,8 @@ public class player_menu extends Fragment {
     private FragmentPlayerMenuBinding binding;
     private EditText editText;
     private ImageButton saveButton;
-    private ImageButton backButton;
+
+    DataManager dataManager;
 
     public static player_menu newInstance() {
         player_menu fragment = new player_menu();
@@ -36,12 +37,11 @@ public class player_menu extends Fragment {
 
         editText = view.findViewById(R.id.editText);
         saveButton = view.findViewById(R.id.saveButton);
-        backButton = view.findViewById(R.id.backButton);
         TextView levelPrint = view.findViewById(R.id.levelPrint);
 
         DataManager dataManager = new DataManager(requireContext());
         String pseudo = dataManager.getPseudo();
-        editText.setHint(pseudo);
+        editText.setText(pseudo);
 
         int niveau = dataManager.getNiveau();
         levelPrint.setText(String.valueOf(niveau));
@@ -56,12 +56,6 @@ public class player_menu extends Fragment {
                     dataManager.savePseudo(newPseudo);
                 }
             }
-        });
-
-        backButton.setOnClickListener(v -> {
-            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_container, main_menu.newInstance());
-            ft.commit();
         });
 
         return view;

@@ -31,7 +31,6 @@ public class game extends AppCompatActivity {
     public static int my_score = 0;
 
     private String flotte_choice;
-
     private DataManager dataManager;
 
     @Override
@@ -39,13 +38,13 @@ public class game extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         gameView = findViewById(R.id.GameView);
+
         Intent intent = new Intent(this, CheckWin.class);
         startService(intent);
 
         dataManager = new DataManager(this);
-        dataManager.initFlotte();
 
-        flotte_choice = "flotte"+(int)(Math.random() * 4 + 1);
+        flotte_choice = dataManager.getCurrentFlotte();
         gameView.setBateaux(dataManager.getFlotte(flotte_choice));
         initGrid(my_grid, true);
         initGrid(ia_grid, false);
@@ -131,22 +130,6 @@ public class game extends AppCompatActivity {
                 return new Hit(x, y, 1);
             default:
                 return null;
-        }
-    }
-
-
-    public void checkEndGame(int win) {
-        if (win == 1 || win == 2) {
-            my_score = 0;
-            ia_score = 0;
-            // Arrêter le service CheckWin
-            Intent intent = new Intent(this, CheckWin.class);
-            stopService(intent);
-
-            // Redirection vers la page de fin de partie
-            intent = new Intent(this, EndGame.class);
-            intent.putExtra("gagnant", win);
-            startActivity(intent);
         }
     }
 }

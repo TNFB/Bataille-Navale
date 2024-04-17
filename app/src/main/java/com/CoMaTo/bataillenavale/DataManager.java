@@ -93,7 +93,7 @@ public class DataManager {
         return pseudo;
     }
 
-    // Récupérer le niveuau du joueur
+    // Récupérer le niveauu du joueur
     public int getNiveau() {
         return sharedPreferences.getInt("niveau", 1);
     }
@@ -102,6 +102,14 @@ public class DataManager {
     public void upNiveau() {
         int niveau = getNiveau();
         sharedPreferences.edit().putInt("niveau", niveau + 1).apply();
+    }
+
+    public void saveCurrentFloat(String flotte) {
+        sharedPreferences.edit().putString("flotte", flotte).apply();
+    }
+
+    public String getCurrentFlotte() {
+        return sharedPreferences.getString("flotte","flotte1");
     }
 }
 

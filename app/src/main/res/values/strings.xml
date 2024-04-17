@@ -11,4 +11,10 @@
     <string name="flotte2">Flotte 2</string>
     <string name="flotte3">Flotte 3</string>
     <string name="flotte4">Flotte 4</string>
+    <string name="back">Back</string>
+    <string name="save">Save and Use</string>
+    <string name="configuration_de_la_flotte">Configuration de la flotte :</string>
+    <string name="_1">1</string>
+    <string name="menu">MENU</string>
+    <string name="flotte_1">Flotte 1</string>
 </resources>

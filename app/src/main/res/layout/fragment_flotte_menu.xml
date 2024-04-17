@@ -4,46 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
+    android:background="@drawable/background_game"
     android:layout_height="match_parent"
     tools:context=".flotte_menu">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="380dp"
+        android:gravity="bottom"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/flotte1"
+        <TextView
+            android:id="@+id/titre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/flotte1" />
-
-        <Button
-            android:id="@+id/flotte2"
+            android:layout_marginBottom="10dp"
+            android:text="@string/configuration_de_la_flotte"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="25sp"/>
+        <TextView
+            android:id="@+id/numero_flotte"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/flotte2" />
+            android:layout_marginBottom="130dp"
+            android:text="@string/flotte_1"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="25sp"/>
 
-        <Button
-            android:id="@+id/flotte3"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/flotte3" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/flotte4"
+            <Button
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/back" />
+
+            <Button
+                android:id="@+id/save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/save" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/flotte4" />
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            >
+            <Button
+                android:id="@+id/flotte_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flotte1" />
 
-        <com.CoMaTo.bataillenavale.PlacementView
-            android:id="@+id/PlacementView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="75dp"
-            android:layout_marginBottom="75dp"/>
+            <Button
+                android:id="@+id/flotte_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flotte2" />
+
+            <Button
+                android:id="@+id/flotte_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flotte3" />
+
+            <Button
+                android:id="@+id/flotte_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flotte4" />
+        </LinearLayout>
     </LinearLayout>
 
+    <com.CoMaTo.bataillenavale.PlacementView
+        android:id="@+id/PlacementView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="380dp"
+        />
 
 
 </FrameLayout>

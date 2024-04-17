@@ -1,8 +1,11 @@
 package com.CoMaTo.bataillenavale;
 
+import static android.app.PendingIntent.getActivity;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -36,6 +39,8 @@ public class GameView extends View {
     ArrayList<Bitmap> my_impacts = new ArrayList<>();
     ArrayList<Hit> ia_hits = new ArrayList<>();
     ArrayList<Bitmap> ia_impacts = new ArrayList<>();
+
+    public static boolean endgame = false;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private AlertDialog.Builder tour = new AlertDialog.Builder(this.getContext());
     public GameView(Context context, AttributeSet attrs) {
@@ -81,6 +86,13 @@ public class GameView extends View {
                     invalidate();
                     if(hit.getTypeHit()==1){
                         game.my_score++;
+                        if(endgame){
+                            Intent intent = new Intent(getContext(), CheckWin.class);
+                            getContext().stopService(intent);
+                            intent = new Intent(getContext(), EndGame.class);
+                            intent.putExtra("win", 1);
+                            getContext().startActivity(intent);
+                        }
                     }
                     scheduler.schedule(new Runnable() {
                         @Override
@@ -96,6 +108,7 @@ public class GameView extends View {
         return true;
     }
     public void setBateaux(Bateau[] boats){
+        System.out.println("bateaux ajoutés");
         flotte = boats;
         for(int i = 0; i < 6; i++){
             bateaux[i] = BitmapFactory.decodeResource(getResources(), boatDrawable[i]);
@@ -190,15 +203,12 @@ public class GameView extends View {
         } else {
             ia_turn();
         }
-    }
-    private void displayTour(){
-        tour.setTitle("Tour");
-        if(game.getTurn()){
-            tour.setMessage("C'est à votre tour de jouer");
-        } else {
-            tour.setMessage("C'est à l'IA de jouer");
+        if(endgame){
+            Intent intent = new Intent(getContext(), CheckWin.class);
+            getContext().stopService(intent);
+            intent = new Intent(getContext(), EndGame.class);
+            intent.putExtra("win", 2);
+            getContext().startActivity(intent);
         }
-        tour.setNeutralButton("OK", null);
-        tour.show();
     }
 }

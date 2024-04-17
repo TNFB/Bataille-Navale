@@ -22,9 +22,9 @@ public class CheckWin extends Service {
         @Override
         public void run() {
             if (game.ia_score == 24) {
-                Game.checkEndGame(2);
+                GameView.endgame = true;
             } else if (game.my_score == 24) {
-                Game.checkEndGame(1);
+                GameView.endgame = true;
             }
             handler.postDelayed(this, 1000);
         }

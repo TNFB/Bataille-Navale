@@ -28,18 +28,22 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         binding.playerButton.setOnClickListener(v -> {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            binding.main.setBackground(getDrawable(R.drawable.background_profil));
             ft.replace(R.id.fragment_container, player_menu.newInstance());
             ft.commit();
         });
         binding.menuPlayButton.setOnClickListener(v -> {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            binding.main.setBackground(getDrawable(R.drawable.background));
             ft.replace(R.id.fragment_container, main_menu.newInstance());
             ft.commit();
         });
-        binding.flotteButton.setOnClickListener(v -> {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_container, flotte_menu.newInstance());
-            ft.commit();
+        binding.flotteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, placement.class);
+                startActivity(intent);
+            }
         });
     }
 }

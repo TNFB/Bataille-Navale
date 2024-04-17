@@ -43,20 +43,6 @@ public class PlacementView extends View {
         setBackBitmap();
     }
 
-    public void setBateaux(Bateau[] boats){
-        flotte = boats;
-        for(int i = 0; i < 6; i++){
-            bateaux[i] = BitmapFactory.decodeResource(getResources(), boatDrawable[i]);
-            bateaux[i] = Bitmap.createScaledBitmap(bateaux[i], flotte[i].getTaille_x() * cellSize - 10, flotte[i].getTaille_y() * cellSize - 10, false);
-        }
-    }
-
-    private void setBackBitmap(){
-        backBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.background_grid);
-        backBitmap = Bitmap.createScaledBitmap(backBitmap, grid_width, grid_width, false);
-    }
-
-
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
@@ -64,6 +50,24 @@ public class PlacementView extends View {
         drawText(canvas);
         drawBackImage(canvas);
         drawBateaux(canvas);
+    }
+
+    public void setBateaux(Bateau[] boats){
+        flotte = boats;
+        for(int i = 0; i < 6; i++) {
+            bateaux[i] = BitmapFactory.decodeResource(getResources(), boatDrawable[i]);
+            bateaux[i] = Bitmap.createScaledBitmap(bateaux[i], flotte[i].getTaille_x() * cellSize - 10, flotte[i].getTaille_y() * cellSize - 10, false);
+        }
+        invalidate();
+    }
+
+    private void setBackBitmap(){
+        backBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.background_grid);
+        backBitmap = Bitmap.createScaledBitmap(backBitmap, grid_width, grid_width, false);
+    }
+
+    public Bateau[] getFlotte(){
+        return flotte;
     }
 
     @Override
@@ -181,6 +185,4 @@ public class PlacementView extends View {
             }
         }
     }
-
-
 }

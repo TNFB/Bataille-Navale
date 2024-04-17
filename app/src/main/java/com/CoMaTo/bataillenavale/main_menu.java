@@ -16,6 +16,8 @@ import java.util.Objects;
 
 public class main_menu extends Fragment {
     private FragmentMainMenuBinding binding;
+
+    private DataManager dataManager;
     private ActivityMainBinding binding2;
     public static main_menu newInstance() {
         main_menu fragment = new main_menu();
@@ -27,8 +29,6 @@ public class main_menu extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = new Intent(getActivity(), CheckWin.class);
-        requireActivity().stopService(intent);
     }
 
     @Override
@@ -44,14 +44,8 @@ public class main_menu extends Fragment {
         binding.playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dataManager = new DataManager(getContext());
                 Intent intent = new Intent(getActivity(), game.class);
-                startActivity(intent);
-            }
-        });
-        binding2.flotteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), placement.class);
                 startActivity(intent);
             }
         });
