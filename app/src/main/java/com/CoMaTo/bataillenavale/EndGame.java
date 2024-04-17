@@ -27,10 +27,10 @@ public class EndGame extends AppCompatActivity {
         super.onResume();
         dataManager = new DataManager(this);
         binding.playerName.setText(dataManager.getPseudo());
-        int extras = getIntent().getIntExtra("win", 0);
+        int extras = getIntent().getIntExtra("win",0);
         if (extras == 1) {
             binding.resultat.setText("You win !");
-        } else {
+        } else if(extras == 2){
             binding.resultat.setText("You lose !");
         }
 

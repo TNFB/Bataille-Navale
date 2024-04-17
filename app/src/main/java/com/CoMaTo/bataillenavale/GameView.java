@@ -90,7 +90,7 @@ public class GameView extends View {
                             Intent intent = new Intent(getContext(), CheckWin.class);
                             getContext().stopService(intent);
                             intent = new Intent(getContext(), EndGame.class);
-                            intent.putExtra("win", 1);
+                            intent.putExtra("win", 2);
                             getContext().startActivity(intent);
                         }
                     }
@@ -204,10 +204,11 @@ public class GameView extends View {
             ia_turn();
         }
         if(endgame){
+            endgame= false;
             Intent intent = new Intent(getContext(), CheckWin.class);
             getContext().stopService(intent);
             intent = new Intent(getContext(), EndGame.class);
-            intent.putExtra("win", 0);
+            intent.putExtra("win", 1);
             getContext().startActivity(intent);
         }
     }
