@@ -6,11 +6,12 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 
+import com.CoMaTo.bataillenavale.databinding.ActivityGameBinding;
+
 import java.security.Provider;
 
 public class CheckWin extends Service {
     private final Handler handler = new Handler(Looper.getMainLooper());
-
     private game Game;
 
     @Override

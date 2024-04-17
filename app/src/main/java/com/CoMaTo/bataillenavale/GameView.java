@@ -22,6 +22,9 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 
+import com.CoMaTo.bataillenavale.databinding.ActivityGameBinding;
+import com.CoMaTo.bataillenavale.databinding.ActivityMainBinding;
+
 import java.util.ArrayList;
 
 public class GameView extends View {
@@ -31,6 +34,7 @@ public class GameView extends View {
     private static int[] hitDrawable = new int[]{R.drawable.cross, R.drawable.dot};
     private int startX, startY, cellSize;
     private static final int GRID_SIZE = 10;
+    private int phoneWidth;
     private int grid_width;
     private Bateau[] flotte = new Bateau[6];
     private Bitmap backBitmap;
@@ -42,17 +46,14 @@ public class GameView extends View {
 
     public static boolean endgame = false;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    private AlertDialog.Builder tour = new AlertDialog.Builder(this.getContext());
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
         //initialisation des variables selon la taille de l'écran du téléphone
-        int phoneWidth = context.getResources().getDisplayMetrics().widthPixels;
+        phoneWidth = context.getResources().getDisplayMetrics().widthPixels;
         grid_width = (int) (phoneWidth * 0.88);
         cellSize = grid_width / GRID_SIZE;
-        startX = (int) (grid_width * 0.06);
-        startY = (int) (grid_width * 0.05);
-
+        startX = (int) (grid_width * 0.09);
+        startY = 550 + (int) (grid_width * 0.05);
         setBackBitmap();
     }
 
@@ -60,12 +61,15 @@ public class GameView extends View {
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         if(game.getTurn()) {
+            drawTurn(canvas);
             drawGrid(canvas);
             drawText(canvas);
             drawBackImage(canvas);
             drawHits(canvas);
 
+
         } else {
+            drawTurn(canvas);
             drawGrid(canvas);
             drawText(canvas);
             drawBackImage(canvas);
@@ -87,6 +91,9 @@ public class GameView extends View {
                     if(hit.getTypeHit()==1){
                         game.ia_score++;
                         if(endgame){
+                            endgame= false;
+                            game.my_score = 0;
+                            game.ia_score = 0;
                             Intent intent = new Intent(getContext(), CheckWin.class);
                             getContext().stopService(intent);
                             intent = new Intent(getContext(), EndGame.class);
@@ -133,6 +140,17 @@ public class GameView extends View {
             hitBitmap = Bitmap.createScaledBitmap(hitBitmap, cellSize, cellSize, false);
             ia_impacts.add(hitBitmap);
         }
+    }
+
+    private void drawTurn(Canvas canvas){
+        Bitmap turn;
+        if(game.getTurn()) {
+            turn = BitmapFactory.decodeResource(getResources(), R.drawable.my_turn);
+        } else {
+            turn = BitmapFactory.decodeResource(getResources(), R.drawable.ia_turn);
+        }
+        turn = Bitmap.createScaledBitmap(turn, phoneWidth, 250, false);
+        canvas.drawBitmap(turn, 0, 0, new Paint());
     }
     private void drawText(Canvas canvas){
         Paint paint = new Paint();
@@ -205,6 +223,8 @@ public class GameView extends View {
         }
         if(endgame){
             endgame= false;
+            game.my_score = 0;
+            game.ia_score = 0;
             Intent intent = new Intent(getContext(), CheckWin.class);
             getContext().stopService(intent);
             intent = new Intent(getContext(), EndGame.class);

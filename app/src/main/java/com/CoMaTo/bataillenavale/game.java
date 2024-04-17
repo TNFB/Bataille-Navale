@@ -12,6 +12,8 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 
+import com.CoMaTo.bataillenavale.databinding.ActivityGameBinding;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,12 +34,14 @@ public class game extends AppCompatActivity {
 
     private String flotte_choice;
     private DataManager dataManager;
+    public static ActivityGameBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         gameView = findViewById(R.id.GameView);
+
 
         Intent intent = new Intent(this, CheckWin.class);
         startService(intent);

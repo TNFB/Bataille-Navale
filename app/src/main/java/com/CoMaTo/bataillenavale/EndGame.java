@@ -29,7 +29,8 @@ public class EndGame extends AppCompatActivity {
         binding.playerName.setText(dataManager.getPseudo());
         int extras = getIntent().getIntExtra("win",0);
         if (extras == 1) {
-            binding.resultat.setText("You win !");
+            binding.resultat.setText("You win ! Level up !");
+            dataManager.upNiveau();
         } else if(extras == 2){
             binding.resultat.setText("You lose !");
         }
